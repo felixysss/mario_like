@@ -6,7 +6,6 @@ export class scene extends Phaser.Scene
     
     cursors;
     player;
-    icon;
 
     preload(){
         this.load.image("level",'assets/level.png');
@@ -80,12 +79,19 @@ export class scene extends Phaser.Scene
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'down',
+            frames: this.anims.generateFrameNumbers('perso', {start:9,end:11}),
+            frameRate: 10,
+            repeat: -1
+        });
+
     }
 
     update(){
         
-        //---keyboard---
-        this.player.setVelocity(0);
+        //---keyboard---);
+
         //c'est le perso qui bouge
         if (this.cursors.left.isDown)
         {
@@ -99,16 +105,25 @@ export class scene extends Phaser.Scene
             this.player.anims.play('right', true);
 
         }
+        else{
+            this.player.setVelocityX(0);
+        }
         
-        else (!this.cursors.down.isDown && !this.cursors.up.isDown && !this.cursors.left.isDown && !this.cursors.right.isDown)
+        if (!this.cursors.down.isDown && !this.cursors.up.isDown && !this.cursors.left.isDown && !this.cursors.right.isDown)
         {
             this.player.anims.play('turn', true);
         }
 
-        if (this.cursors.up.isDown)
+        if (this.cursors.up.isDown&& this.player.body.blocked.down)
         {
-            this.player.setVelocityY(-300);
+            this.player.setVelocityY(-200);
             this.player.anims.play('up',true);
+        }
+        else if (this.cursors.down.isDown&& this.player.body.blocked.down)
+        {
+            this.player.setVelocityY(200);
+            this.player.anims.play('down', true);
+
         }
                 
     }

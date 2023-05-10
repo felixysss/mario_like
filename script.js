@@ -13,12 +13,13 @@ var config =
         default: 'arcade',
         arcade: 
         {
-            gravity: { y: 10000 },
+            gravity: { y: 300 },
             debug: true
         }
     },
     
     scene: [scene],
+    pixelArt: true,
 
 
 };
