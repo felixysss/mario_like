@@ -13,13 +13,21 @@ export class scene extends Phaser.Scene
         this.load.tilemapTiledJSON('carte', 'assets/map.json');
         this.load.spritesheet('perso','assets/perso.png',
             { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('ennemi','assets/ennemi.png',
+            {frameWidth: 32, frameHeight: 32});
     }
     
     create(){
         this.add.image(800,800,"level");
         this.player = this.physics.add.sprite(225, 0, 'perso');
+        this.ennemy= this.physics.add.sprite(399, 0, 'ennemi');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
+        this.ennemy.setBounce(0.2);
+        this.ennemy.setCollideWorldBounds(true);
+
+
+        
 
         //tiled
         const carteDuNiveau= this.add.tilemap("carte");
@@ -41,6 +49,8 @@ export class scene extends Phaser.Scene
 
         calque_plateformes.setCollisionByProperty({ estSolide: true });
         this.physics.add.collider(this.player, calque_plateformes);
+        this.physics.add.collider(this.ennemy, calque_plateformes);
+        this.physics.add.collider(this.player, this.ennemy);
 
         //caméra
         this.physics.world.setBounds(0,0,1600,1600);
@@ -85,6 +95,14 @@ export class scene extends Phaser.Scene
             frameRate: 10,
             repeat: -1
         });
+        this.anims.create({
+            key: 'ennemi_idle',
+            frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
+            frameRate: 7,
+            repeat: -1
+        });
+
+
 
     }
 
@@ -125,10 +143,20 @@ export class scene extends Phaser.Scene
             this.player.anims.play('down', true);
 
         }
-                
-    }
 
-    
+        if (this.ennemy) {
+            if (this.ennemy.x < 400) {
+              this.ennemy.setVelocityX(80);
+              this.ennemy.anims.play('ennemy_idle', true);
+            } 
+            else if (this.ennemy.x > 470) {
+              this.ennemy.setVelocityX(-80);
+              this.ennemy.anims.play('ennemy_idle', true);
+            }
+                
+        }
+
+    }
 
 
     //changeScene(player, trigger){
