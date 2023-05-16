@@ -4,13 +4,14 @@ export class scene extends Phaser.Scene
 {
     constructor(){
         super("scene");
-        this.game_over=false;
     }
     
     cursors;
     player;
+    game_over=false;
 
     preload(){
+        this.load.image("fishe",'assets/fishe.png');
         this.load.image("level",'assets/level.png');
         this.load.image("Phaser_tuilesdejeu",'assets/tuilesJeu.png');
         this.load.tilemapTiledJSON('carte', 'assets/map.json');
@@ -57,10 +58,17 @@ export class scene extends Phaser.Scene
             this.tileset
         );
 
+        this.danger = this.carteDuNiveau.createLayer(
+            'danger',
+            this.tileset
+        );
+
         this.calque_plateformes.setCollisionByProperty({ estSolide: true });
         this.physics.add.collider(this.player, this.calque_plateformes);
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
         this.physics.add.collider(this.player, this.ennemy);
+        this.physics.add.overlap(this.danger, this.player, this.overlapDanger, null, this);
+
 
         //caméra
         this.physics.world.setBounds(0,0,1600,1600);
@@ -115,13 +123,11 @@ export class scene extends Phaser.Scene
             repeat: -1
         });
 
-
-
+        this.fishe = this.add.image(250,191,"fishe");
+        this.fishe.setVisible(false);    
     }
 
     update(){
-        
-        //---keyboard---);
 
         //c'est le perso qui bouge
         if (this.cursors.left.isDown)
@@ -171,12 +177,17 @@ export class scene extends Phaser.Scene
         
 
     }
+    
     changeScene(player, trigger){
         this.scene.start('scene2');
     }
-
-    //changeScene(player, trigger){
-        //this.scene.start('sceneCroisement');
-    //}
+    
+    overlapDanger(){
+        this.game_over=true;
+    }
+     
+    game_over(){
+        this.fishe.setVisible(true);
+    }
     
 }
