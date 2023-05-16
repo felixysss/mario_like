@@ -1,4 +1,5 @@
 import {scene} from "./assets/scene.js";
+import {scene2} from "./assets/scene2.js";
 
 var config = 
 {
@@ -18,7 +19,7 @@ var config =
         }
     },
     
-    scene: [scene],
+    scene: [scene,scene2],
     pixelArt: true,
 
 

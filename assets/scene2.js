@@ -1,9 +1,9 @@
-import {scene2} from './scene2.js';
+import {scene} from './scene.js';
 
-export class scene extends Phaser.Scene
+export class scene2 extends Phaser.Scene
 {
     constructor(){
-        super("scene");
+        super("scene2");
         this.game_over=false;
     }
     
