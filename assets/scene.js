@@ -24,8 +24,8 @@ export class scene extends Phaser.Scene
  
     create(){
         this.add.image(800,800,"level");
-        this.player = this.physics.add.sprite(225, 0, 'perso');
-        this.ennemy= this.physics.add.sprite(399, 0, 'ennemi');
+        this.player = this.physics.add.sprite(250, 191, 'perso');
+        this.ennemy= this.physics.add.sprite(399, 191, 'ennemi');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
@@ -35,26 +35,31 @@ export class scene extends Phaser.Scene
         
 
         //tiled
-        const carteDuNiveau= this.add.tilemap("carte");
+        this.carteDuNiveau= this.add.tilemap("carte");
 
-        const tileset = carteDuNiveau.addTilesetImage(
+        this.tileset = this.carteDuNiveau.addTilesetImage(
             "tileset",
             "Phaser_tuilesdejeu"
         );
 
-        const calque_plateformes = carteDuNiveau.createLayer(
+        this.calque_plateformes = this.carteDuNiveau.createLayer(
             "calque_plateformes",
-            tileset
+            this.tileset
         );
 
-        const calque_plateformes_2 = carteDuNiveau.createLayer(
+        this.calque_plateformes_2 = this.carteDuNiveau.createLayer(
             "calque_plateformes",
-            tileset
+            this.tileset
         );
 
-        calque_plateformes.setCollisionByProperty({ estSolide: true });
-        this.physics.add.collider(this.player, calque_plateformes);
-        this.physics.add.collider(this.ennemy, calque_plateformes);
+        this.tp = this.carteDuNiveau.createLayer(
+            'tp',
+            this.tileset
+        );
+
+        this.calque_plateformes.setCollisionByProperty({ estSolide: true });
+        this.physics.add.collider(this.player, this.calque_plateformes);
+        this.physics.add.collider(this.ennemy, this.calque_plateformes);
         this.physics.add.collider(this.player, this.ennemy);
 
         //caméra
@@ -62,6 +67,9 @@ export class scene extends Phaser.Scene
         this.cameras.main.setBounds(0,0,1600,1600);
         this.cameras.main.zoom= 5;
         this.cameras.main.startFollow(this.player);
+
+        this.tp.setCollisionByExclusion(-1, true);
+        this.physics.add.collider(this.tp, this.player, this.changeScene, null, this);
 
         //clavier
         this.cursors = this.input.keyboard.createCursorKeys();//pour le clavier 
@@ -160,9 +168,12 @@ export class scene extends Phaser.Scene
             }
                 
         }
+        
 
     }
-
+    changeScene(player, trigger){
+        this.scene.start('scene2');
+    }
 
     //changeScene(player, trigger){
         //this.scene.start('sceneCroisement');
