@@ -2,10 +2,24 @@ import {scene2} from './scene2.js';
 
 export class scene extends Phaser.Scene
 {
+    ;
+    
     constructor(){
         super("scene");
 
-        this.game_over = false;
+        this.game_over = false
+
+        let lampadaire1 = {
+            on: false
+        }
+        //let lampadaire2 = {
+            //on: false
+        //}
+        
+        let player = {
+            canBeDetected: false,
+            isDetected: false
+        }
     }
 
     preload(){
@@ -32,10 +46,10 @@ export class scene extends Phaser.Scene
         this.ennemy.setBounce(0.2);
         this.ennemy.setCollideWorldBounds(true);
         
-        this.danger = this.physics.add.sprite(335,250,"danger");
+        this.danger = this.physics.add.sprite(335,191,"danger");
         this.danger.body.allowGravity = false;
         this.danger.setImmovable(true);
-        this.danger.setVisible(false);
+        this.danger.setVisible(true);
 
         
 
@@ -68,7 +82,7 @@ export class scene extends Phaser.Scene
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
         this.physics.add.collider(this.player, this.ennemy);
 
-        this.physics.add.overlap(this.player, this.danger, this.killplayer, null, this);
+        this.physics.add.overlap(this.player, this.ded, this.playerDetection, null, this);
 
 
         //caméra
@@ -128,9 +142,18 @@ export class scene extends Phaser.Scene
         this.ded.setVisible(false);    
     }
 
-    update(){
-
+    update(delta, time){
         if (this.game_over) {return;}
+
+        if (delta % 10 == 0){
+            if (this.danger.visible) {
+              this.danger.setVisible(false);
+            } else {
+              this.danger.setVisible(true);
+            }
+        }    
+
+        
 
         //c'est le perso qui bouge
         if (this.cursors.left.isDown)
@@ -178,7 +201,7 @@ export class scene extends Phaser.Scene
                 
         }
         
-
+        this.toggleLampadaire(this.danger);
     }
     
     changeScene(player, trigger){
@@ -190,13 +213,32 @@ export class scene extends Phaser.Scene
         //this.game_over=true;
         //console.log("overlapDanger ça marche");
     //}
+
+    toggleLampadaire(ded){
+        
+        if (this.danger.on == true){
+            this.danger.on = false;
+            this.player.canBeDetected = false;
+        } else {
+            this.danger.on = true;
+            this.player.canBeDetected = true;
+        }
+    }
+
+    playerDetection(player, danger){
+        
+        if (this.player.canBeDetected && this.player.isInZone){
+            console.log("ça marche encore");
+            this.killplayer();
+        }
+    }
      
     killplayer(){
         this.game_over = true;
-        
         console.log("ça marche");
         this.ded.setVisible(true);
         this.cameras.main.zoom= 1;
     }
-    
+
+    //toggleLampadaire(ded)
 }
