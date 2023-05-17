@@ -4,14 +4,13 @@ export class scene extends Phaser.Scene
 {
     constructor(){
         super("scene");
+
+        this.game_over = false;
     }
-    
-    cursors;
-    player;
-    game_over=false;
 
     preload(){
-        this.load.image("fishe",'assets/fishe.png');
+        this.load.image("ded",'assets/gameover.png');
+        this.load.image("danger",'assets/danger.png');
         this.load.image("level",'assets/level.png');
         this.load.image("Phaser_tuilesdejeu",'assets/tuilesJeu.png');
         this.load.tilemapTiledJSON('carte', 'assets/map.json');
@@ -24,6 +23,7 @@ export class scene extends Phaser.Scene
 
  
     create(){
+        
         this.add.image(800,800,"level");
         this.player = this.physics.add.sprite(250, 191, 'perso');
         this.ennemy= this.physics.add.sprite(399, 191, 'ennemi');
@@ -31,7 +31,11 @@ export class scene extends Phaser.Scene
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
         this.ennemy.setCollideWorldBounds(true);
-
+        
+        this.danger = this.physics.add.sprite(335,250,"danger");
+        this.danger.body.allowGravity = false;
+        this.danger.setImmovable(true);
+        this.danger.setVisible(false);
 
         
 
@@ -58,16 +62,13 @@ export class scene extends Phaser.Scene
             this.tileset
         );
 
-        this.danger = this.carteDuNiveau.createLayer(
-            'danger',
-            this.tileset
-        );
 
         this.calque_plateformes.setCollisionByProperty({ estSolide: true });
         this.physics.add.collider(this.player, this.calque_plateformes);
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
         this.physics.add.collider(this.player, this.ennemy);
-        this.physics.add.overlap(this.danger, this.player, this.overlapDanger, null, this);
+
+        this.physics.add.overlap(this.player, this.danger, this.killplayer, null, this);
 
 
         //caméra
@@ -116,18 +117,20 @@ export class scene extends Phaser.Scene
             frameRate: 10,
             repeat: -1
         });
-        this.anims.create({
-            key: 'ennemi_idle',
-            frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
-            frameRate: 7,
-            repeat: -1
-        });
+        //this.anims.create({
+            //key: 'ennemi_idle',
+            //frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
+            //frameRate: 7,
+            //repeat: -1
+        //});
 
-        this.fishe = this.add.image(250,191,"fishe");
-        this.fishe.setVisible(false);    
+        this.ded = this.add.image(800,800,"ded");
+        this.ded.setVisible(false);    
     }
 
     update(){
+
+        if (this.game_over) {return;}
 
         //c'est le perso qui bouge
         if (this.cursors.left.isDown)
@@ -166,11 +169,11 @@ export class scene extends Phaser.Scene
         if (this.ennemy) {
             if (this.ennemy.x < 400) {
               this.ennemy.setVelocityX(80);
-              this.ennemy.anims.play('ennemy_idle', true);
+              //this.ennemy.anims.play('ennemy_idle', true);
             } 
             else if (this.ennemy.x > 470) {
               this.ennemy.setVelocityX(-80);
-              this.ennemy.anims.play('ennemy_idle', true);
+              //this.ennemy.anims.play('ennemy_idle', true);
             }
                 
         }
@@ -182,12 +185,18 @@ export class scene extends Phaser.Scene
         this.scene.start('scene2');
     }
     
-    overlapDanger(){
-        this.game_over=true;
-    }
+   // overlapDanger(){
+        
+        //this.game_over=true;
+        //console.log("overlapDanger ça marche");
+    //}
      
-    game_over(){
-        this.fishe.setVisible(true);
+    killplayer(){
+        this.game_over = true;
+        
+        console.log("ça marche");
+        this.ded.setVisible(true);
+        this.cameras.main.zoom= 1;
     }
     
 }

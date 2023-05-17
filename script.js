@@ -1,5 +1,7 @@
 import {scene} from "./assets/scene.js";
 import {scene2} from "./assets/scene2.js";
+import {sceneMenu} from "./assets/menu.js";
+
 
 var config = 
 {
@@ -14,12 +16,12 @@ var config =
         default: 'arcade',
         arcade: 
         {
-            gravity: { y: 300 },
-            debug: true
+            gravity    : { y: 300 },
+            debug: false
         }
     },
     
-    scene: [scene,scene2],
+    scene: [sceneMenu, scene, scene2],
     pixelArt: true,
 
 
