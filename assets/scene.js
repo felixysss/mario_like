@@ -15,11 +15,7 @@ export class scene extends Phaser.Scene
         //let lampadaire2 = {
             //on: false
         //}
-        
-        let player = {
-            canBeDetected: false,
-            isDetected: false
-        }
+
     }
 
     preload(){
@@ -33,13 +29,20 @@ export class scene extends Phaser.Scene
         this.load.spritesheet('ennemi','assets/ennemi.png',
             {frameWidth: 32, frameHeight: 32});
     }
+
     
 
  
     create(){
         
+        var lampadaireOn = true
+
         this.add.image(800,800,"level");
         this.player = this.physics.add.sprite(250, 191, 'perso');
+
+        this.player.canBeDetected = false;
+        //this.player.
+
         this.ennemy= this.physics.add.sprite(399, 191, 'ennemi');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
@@ -82,7 +85,7 @@ export class scene extends Phaser.Scene
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
         this.physics.add.collider(this.player, this.ennemy);
 
-        this.physics.add.overlap(this.player, this.ded, this.playerDetection, null, this);
+        //this.physics.add.overlap(this.player, this.ded, this.danger, this.toggleLampadaire, this.playerDetection, null, this);
 
 
         //caméra
@@ -144,12 +147,18 @@ export class scene extends Phaser.Scene
 
     update(delta, time){
         if (this.game_over) {return;}
+        
+
 
         if (delta % 10 == 0){
             if (this.danger.visible) {
               this.danger.setVisible(false);
+              this.danger.setOffset(1000,1000);
+              this.lampadaireOn = false;
             } else {
               this.danger.setVisible(true);
+              this.danger.setOffset(0,0);
+              this.lampadaireOn = true;
             }
         }    
 
@@ -200,22 +209,32 @@ export class scene extends Phaser.Scene
             }
                 
         }
+
+        if (this.physics.overlap(this.player, this.danger, () => this.toggleLampadaire(this.danger), null, this)&& this.danger.on) {
+            this.player.canBeDetected = true;
+                    console.log("klkjdlkgj");
+                    this.killplayer();
+        } else {
+            this.player.canBeDetected = false;
+
+        }
+
+        //this.toggleLampadaire(this.danger);
+        //this.playerDetection(this.player, this.danger);
         
-        this.toggleLampadaire(this.danger);
     }
     
     changeScene(player, trigger){
         this.scene.start('scene2');
     }
     
-   // overlapDanger(){
+   //overlapDanger(){
         
         //this.game_over=true;
         //console.log("overlapDanger ça marche");
     //}
 
-    toggleLampadaire(ded){
-        
+    toggleLampadaire(){
         if (this.danger.on == true){
             this.danger.on = false;
             this.player.canBeDetected = false;
@@ -225,13 +244,14 @@ export class scene extends Phaser.Scene
         }
     }
 
-    playerDetection(player, danger){
-        
-        if (this.player.canBeDetected && this.player.isInZone){
-            console.log("ça marche encore");
-            this.killplayer();
-        }
-    }
+
+    //playerDetection(player, danger){
+        //console.log(this.player.canBeDetected);
+       // if (this.player.canBeDetected){
+       //     console.log("ça marche encore");
+       //     this.killplayer();
+      //  }
+    //}
      
     killplayer(){
         this.game_over = true;
@@ -240,5 +260,4 @@ export class scene extends Phaser.Scene
         this.cameras.main.zoom= 1;
     }
 
-    //toggleLampadaire(ded)
 }

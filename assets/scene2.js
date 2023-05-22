@@ -4,13 +4,14 @@ export class scene2 extends Phaser.Scene
 {
     constructor(){
         super("scene2");
+
         this.game_over=false;
     }
     
-    cursors;
-    player;
+    
 
     preload(){
+        this.load.image("ded",'assets/gameover.png');
         this.load.image("level",'assets/level.png');
         this.load.image("Phaser_tuilesdejeu",'assets/tuilesJeu.png');
         this.load.tilemapTiledJSON('carte', 'assets/map2.json');
@@ -24,8 +25,9 @@ export class scene2 extends Phaser.Scene
  
     create(){
         this.add.image(800,800,"level");
-        this.player = this.physics.add.sprite(225, 191, 'perso');
-        this.ennemy= this.physics.add.sprite(399, 191, 'ennemi');
+        this.player = this.physics.add.sprite(300, 191, 'perso');
+
+        this.ennemy= this.physics.add.sprite(225, 191, 'ennemi');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
@@ -56,7 +58,7 @@ export class scene2 extends Phaser.Scene
         this.calque_plateformes.setCollisionByProperty({ estSolide: true });
         this.physics.add.collider(this.player, this.calque_plateformes);
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
-        this.physics.add.collider(this.player, this.ennemy);
+        this.physics.add.collider(this.player, this.ennemy, this.killplayer, null, this);
 
         //caméra
         this.physics.world.setBounds(0,0,1600,1600);
@@ -102,19 +104,24 @@ export class scene2 extends Phaser.Scene
             frameRate: 10,
             repeat: -1
         });
-        this.anims.create({
-            key: 'ennemi_idle',
-            frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
-            frameRate: 7,
-            repeat: -1
-        });
-
+        //this.anims.create({
+          //  key: 'ennemi_idle',
+          //  frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
+          //  frameRate: 7,
+          //  repeat: -1
+        //});
+        this.ded = this.add.image(800,800,"ded");
+        this.ded.setVisible(false);    
 
 
     }
 
     update(){
+        if (this.game_over) {return;}
+
+
         
+        this.physics.moveToObject(this.ennemy,this.player, 50, )
         //---keyboard---);
 
         //c'est le perso qui bouge
@@ -151,18 +158,26 @@ export class scene2 extends Phaser.Scene
 
         }
 
-        if (this.ennemy) {
-            if (this.ennemy.x < 400) {
-              this.ennemy.setVelocityX(80);
-              this.ennemy.anims.play('ennemy_idle', true);
-            } 
-            else if (this.ennemy.x > 470) {
-              this.ennemy.setVelocityX(-80);
-              this.ennemy.anims.play('ennemy_idle', true);
-            }
+        //if (this.ennemy) {
+            //if (this.ennemy.x < 400) {
+              //this.ennemy.setVelocityX(80);
+              //this.ennemy.anims.play('ennemy_idle', true);
+            //} 
+            //else if (this.ennemy.x > 470) {
+             // this.ennemy.setVelocityX(-80);
+             // this.ennemy.anims.play('ennemy_idle', true);
+           // }
                 
+        //}
+
+
         }
 
+    killplayer(){
+        this.game_over = true;
+        console.log("ça marche");
+        this.ded.setVisible(true);
+        this.cameras.main.zoom= 1;
     }
 
 }
