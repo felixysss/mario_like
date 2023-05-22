@@ -41,7 +41,6 @@ export class scene extends Phaser.Scene
         this.player = this.physics.add.sprite(250, 191, 'perso');
 
         this.player.canBeDetected = false;
-        //this.player.
 
         this.ennemy= this.physics.add.sprite(399, 191, 'ennemi');
         this.player.setBounce(0.2);
@@ -162,16 +161,20 @@ export class scene extends Phaser.Scene
             }
         }    
 
+        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyJump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
 
         //c'est le perso qui bouge
-        if (this.cursors.left.isDown)
+        if (this.keyQ.isDown)
         {
             this.player.setVelocityX(-160);
             this.player.anims.play('left', true);  
         
         }
-        else if (this.cursors.right.isDown)
+        else if (this.keyD.isDown)
         {
             this.player.setVelocityX(160);
             this.player.anims.play('right', true);
@@ -181,22 +184,27 @@ export class scene extends Phaser.Scene
             this.player.setVelocityX(0);
         }
         
-        if (!this.cursors.down.isDown && !this.cursors.up.isDown && !this.cursors.left.isDown && !this.cursors.right.isDown)
+        if (!this.keyShift.isDown && !this.keyJump.isDown && !this.keyQ.isDown && !this.keyD.isDown)
         {
             this.player.anims.play('turn', true);
         }
 
-        if (this.cursors.up.isDown&& this.player.body.blocked.down)
+        if (this.keyJump.isDown && this.player.body.blocked.down)
         {
             this.player.setVelocityY(-200);
             this.player.anims.play('up',true);
         }
-        else if (this.cursors.down.isDown&& this.player.body.blocked.down)
+        else if (this.keyShift.isDown&& this.player.body.blocked.down)
         {
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
 
         }
+
+
+
+
+
 
         if (this.ennemy) {
             if (this.ennemy.x < 400) {

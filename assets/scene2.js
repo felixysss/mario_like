@@ -110,9 +110,9 @@ export class scene2 extends Phaser.Scene
           //  frameRate: 7,
           //  repeat: -1
         //});
+
         this.ded = this.add.image(800,800,"ded");
         this.ded.setVisible(false);    
-
 
     }
 
@@ -124,14 +124,20 @@ export class scene2 extends Phaser.Scene
         this.physics.moveToObject(this.ennemy,this.player, 50, )
         //---keyboard---);
 
+        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyJump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        
+
         //c'est le perso qui bouge
-        if (this.cursors.left.isDown)
+        if (this.keyQ.isDown)
         {
             this.player.setVelocityX(-160);
             this.player.anims.play('left', true);  
         
         }
-        else if (this.cursors.right.isDown)
+        else if (this.keyD.isDown)
         {
             this.player.setVelocityX(160);
             this.player.anims.play('right', true);
@@ -141,17 +147,17 @@ export class scene2 extends Phaser.Scene
             this.player.setVelocityX(0);
         }
         
-        if (!this.cursors.down.isDown && !this.cursors.up.isDown && !this.cursors.left.isDown && !this.cursors.right.isDown)
+        if (!this.keyShift.isDown && !this.keyJump.isDown && !this.keyQ.isDown && !this.keyD.isDown)
         {
             this.player.anims.play('turn', true);
         }
 
-        if (this.cursors.up.isDown&& this.player.body.blocked.down)
+        if (this.keyJump.isDown && this.player.body.blocked.down)
         {
             this.player.setVelocityY(-200);
             this.player.anims.play('up',true);
         }
-        else if (this.cursors.down.isDown&& this.player.body.blocked.down)
+        else if (this.keyShift.isDown&& this.player.body.blocked.down)
         {
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
