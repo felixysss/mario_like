@@ -88,8 +88,8 @@ export class scene extends Phaser.Scene
 
 
         //caméra
-        this.physics.world.setBounds(0,0,1600,1600);
-        this.cameras.main.setBounds(0,0,1600,1600);
+        this.physics.world.setBounds(0,0,1600,900);
+        this.cameras.main.setBounds(0,0,1600,900);
         this.cameras.main.zoom= 5;
         this.cameras.main.startFollow(this.player);
 

@@ -9,7 +9,7 @@ var config =
         scale:{
             mode: Phaser.Scale.FIT,
             width: 1600, 
-            height: 1600
+            height: 900
     },
         
     physics: {
