@@ -187,3 +187,6 @@ export class scene2 extends Phaser.Scene
     }
 
 }
+
+//à faire = ennemi pas collisions avec les plateformes qui feront obstacles, mais pourtant va tout droit 
+//-> peut être résolu en faisant deux calques différents: un pour le sol, un pour les obstacles

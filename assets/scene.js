@@ -38,6 +38,8 @@ export class scene extends Phaser.Scene
         var lampadaireOn = true
 
         this.add.image(800,800,"level");
+        this.add.text(250, 100, 'Hello World', { fontFamily: 'Times' });
+
         this.player = this.physics.add.sprite(250, 191, 'perso');
 
         this.player.canBeDetected = false;
@@ -82,7 +84,7 @@ export class scene extends Phaser.Scene
         this.calque_plateformes.setCollisionByProperty({ estSolide: true });
         this.physics.add.collider(this.player, this.calque_plateformes);
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
-        this.physics.add.collider(this.player, this.ennemy);
+        //this.physics.add.collider(this.player, this.ennemy);
 
         //this.physics.add.overlap(this.player, this.ded, this.danger, this.toggleLampadaire, this.playerDetection, null, this);
 
@@ -149,7 +151,7 @@ export class scene extends Phaser.Scene
         
 
 
-        if (delta % 10 == 0){
+        if (delta % 100 == 0){
             if (this.danger.visible) {
               this.danger.setVisible(false);
               this.danger.setOffset(1000,1000);
@@ -269,3 +271,4 @@ export class scene extends Phaser.Scene
     }
 
 }
+//à faire = "vrai game over"
