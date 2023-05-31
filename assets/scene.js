@@ -21,13 +21,13 @@ export class scene extends Phaser.Scene
     preload(){
         this.load.image("ded",'assets/gameover.png');
         this.load.image("danger",'assets/danger.png');
-        this.load.image("level",'assets/level.png');
-        this.load.image("Phaser_tuilesdejeu",'assets/tuilesJeu.png');
-        this.load.tilemapTiledJSON('carte', 'assets/map.json');
-        this.load.spritesheet('perso','assets/perso.png',
-            { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('ennemi','assets/ennemi.png',
-            {frameWidth: 32, frameHeight: 32});
+        this.load.image("level",'assets/lvl1.png');
+        this.load.image("Phaser_tuilesdejeu",'assets/tileset.png');
+        this.load.tilemapTiledJSON('carte', 'assets/map_rue.json');
+        this.load.spritesheet('perso','assets/dude.png',
+            { frameWidth: 87, frameHeight: 165 });
+        this.load.spritesheet('ennemi','assets/bad.png',
+            {frameWidth: 314, frameHeight: 456});
     }
 
     
@@ -37,7 +37,7 @@ export class scene extends Phaser.Scene
         
         var lampadaireOn = true
 
-        this.add.image(800,800,"level");
+        this.add.image(4720,895,"level");
         this.add.text(250, 100, 'Hello World', { fontFamily: 'Times' });
 
         this.player = this.physics.add.sprite(250, 191, 'perso');
@@ -90,9 +90,9 @@ export class scene extends Phaser.Scene
 
 
         //caméra
-        this.physics.world.setBounds(0,0,1600,900);
-        this.cameras.main.setBounds(0,0,1600,900);
-        this.cameras.main.zoom= 5;
+        this.physics.world.setBounds(0,0,9449,1772);
+        this.cameras.main.setBounds(0,0,9449,1772);
+        this.cameras.main.zoom= 1;
         this.cameras.main.startFollow(this.player);
 
         this.tp.setCollisionByExclusion(-1, true);
@@ -172,13 +172,13 @@ export class scene extends Phaser.Scene
         //c'est le perso qui bouge
         if (this.keyQ.isDown)
         {
-            this.player.setVelocityX(-160);
+            this.player.setVelocityX(-400);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
-            this.player.setVelocityX(160);
+            this.player.setVelocityX(400);
             this.player.anims.play('right', true);
 
         }
@@ -193,7 +193,7 @@ export class scene extends Phaser.Scene
 
         if (this.keyJump.isDown && this.player.body.blocked.down)
         {
-            this.player.setVelocityY(-200);
+            this.player.setVelocityY(-350);
             this.player.anims.play('up',true);
         }
         else if (this.keyShift.isDown&& this.player.body.blocked.down)
