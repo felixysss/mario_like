@@ -44,9 +44,9 @@ export class scene extends Phaser.Scene
     create(){
 
         console.log("aled")
-        this.cursors = this.input.keyboard.createCursorKeys();//pour le clavier 
         
         var lampadaireOn = true
+        this.game_over = false;
 
         this.add.image(4720,895,"level");
         this.add.text(250, 100, 'Hello World', { fontFamily: 'Times' });
@@ -172,15 +172,16 @@ export class scene extends Phaser.Scene
             //frameRate: 7,
             //repeat: -1
         //});
-        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-        this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.keyJump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.cursors = this.input.keyboard.createCursorKeys();//pour le clavier    
+
         this.ded = this.add.image(800,800,"ded");
-        this.ded.setVisible(false);    
+        this.ded.setVisible(false); 
     }
 
     update(delta, time){
+
+
         if (this.game_over) {return;}
         //console.log(this.player.x);
         //console.log(this.player.y);
@@ -232,7 +233,10 @@ export class scene extends Phaser.Scene
 
 
 
-
+        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyJump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
 
         //c'est le perso qui bouge

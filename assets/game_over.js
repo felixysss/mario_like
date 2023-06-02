@@ -22,7 +22,7 @@ export class GameOver extends Phaser.Scene
     if (this.click == true) {
       this.cameras.main.fadeOut(900, 0, 0, 0);
       this.time.delayedCall(1000, () => {
-        this.scene.start("scene");
+        this.scene.start("scene")
       })
     }
     this.click = false;
