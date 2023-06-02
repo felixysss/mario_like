@@ -1,4 +1,5 @@
 import {scene} from './scene.js';
+import {GameOver} from './game_over.js';
 
 export class scene2 extends Phaser.Scene
 {
@@ -12,22 +13,25 @@ export class scene2 extends Phaser.Scene
 
     preload(){
         this.load.image("ded",'assets/gameover.png');
-        this.load.image("level",'assets/level.png');
-        this.load.image("Phaser_tuilesdejeu",'assets/tuilesJeu.png');
-        this.load.tilemapTiledJSON('carte', 'assets/map2.json');
-        this.load.spritesheet('perso','assets/perso.png',
-            { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('ennemi','assets/ennemi.png',
-            {frameWidth: 32, frameHeight: 32});
+
+        this.load.image("level2",'assets/lvl2.png');
+        this.load.image("Phaser_tuilesdejeu",'assets/tuiles2.png');
+        this.load.tilemapTiledJSON('carte2', 'assets/map_cat.json');
+        this.load.spritesheet('perso2','assets/dude.png',
+            { frameWidth: 87, frameHeight: 165 });
+        this.load.spritesheet('ennemi2','assets/bad.png',
+            {frameWidth: 314, frameHeight: 456});
     }
     
 
  
     create(){
-        this.add.image(800,800,"level");
-        this.player = this.physics.add.sprite(300, 191, 'perso');
+        this.game_over = false;
 
-        this.ennemy= this.physics.add.sprite(225, 191, 'ennemi');
+        this.add.image(4720,895,"level2");
+        this.player = this.physics.add.sprite(400, 1400, 'perso2');
+
+        this.ennemy= this.physics.add.sprite(100, 1400, 'ennemi2');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
@@ -37,7 +41,7 @@ export class scene2 extends Phaser.Scene
         
 
         //tiled
-        this.carteDuNiveau= this.add.tilemap("carte");
+        this.carteDuNiveau= this.add.tilemap("carte2");
 
         this.tileset = this.carteDuNiveau.addTilesetImage(
             "tileset",
@@ -61,10 +65,11 @@ export class scene2 extends Phaser.Scene
         this.physics.add.collider(this.player, this.ennemy, this.killplayer, null, this);
 
         //caméra
-        this.physics.world.setBounds(0,0,1600,1600);
-        this.cameras.main.setBounds(0,0,1600,1600);
-        this.cameras.main.zoom= 5;
+        this.physics.world.setBounds(0,0,9449,1772);
+        this.cameras.main.setBounds(0,0,9449,1772);
+        this.cameras.main.zoom= 0.8;
         this.cameras.main.startFollow(this.player);
+        this.ennemy.setVelocityX(8000)
 
 
         //clavier
@@ -116,9 +121,16 @@ export class scene2 extends Phaser.Scene
 
     }
 
-    update(){
+    update(delta, time){
         if (this.game_over) {return;}
+        if (delta % 7 == 0){
+            this.cameras.main.shake(70, 0.005);
+        } else {
+                this.cameras.main.shake(0, 0);
+        }
+          
 
+    
 
         
         this.physics.moveToObject(this.ennemy,this.player, 50, )
@@ -133,13 +145,13 @@ export class scene2 extends Phaser.Scene
         //c'est le perso qui bouge
         if (this.keyQ.isDown)
         {
-            this.player.setVelocityX(-160);
+            this.player.setVelocityX(-400);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
-            this.player.setVelocityX(160);
+            this.player.setVelocityX(400);
             this.player.anims.play('right', true);
 
         }
@@ -154,7 +166,7 @@ export class scene2 extends Phaser.Scene
 
         if (this.keyJump.isDown && this.player.body.blocked.down)
         {
-            this.player.setVelocityY(-200);
+            this.player.setVelocityY(-350);
             this.player.anims.play('up',true);
         }
         else if (this.keyShift.isDown&& this.player.body.blocked.down)
@@ -182,8 +194,7 @@ export class scene2 extends Phaser.Scene
     killplayer(){
         this.game_over = true;
         console.log("ça marche");
-        this.ded.setVisible(true);
-        this.cameras.main.zoom= 1;
+        this.scene.start("GameOver")
     }
 
 }

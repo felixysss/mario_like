@@ -51,7 +51,7 @@ export class scene extends Phaser.Scene
         this.add.image(4720,895,"level");
         this.add.text(250, 100, 'Hello World', { fontFamily: 'Times' });
 
-        this.player = this.physics.add.sprite(250, 1485.5, 'perso');
+        this.player = this.physics.add.sprite(200, 1485.5, 'perso');
 
         this.player.canBeDetected = false;
 
@@ -61,25 +61,25 @@ export class scene extends Phaser.Scene
         this.ennemy.setBounce(0.2);
         this.ennemy.setCollideWorldBounds(true);
         
-        this.danger = this.physics.add.sprite(2725,1340,"danger");
+        this.danger = this.physics.add.sprite(2725,1250,"danger");
         this.danger.body.allowGravity = false;
         this.danger.setImmovable(true);
         this.danger.setVisible(true);
         this.danger.setAlpha(0.5);
 
-        this.danger2 = this.physics.add.sprite(4550,1340,"danger2");
+        this.danger2 = this.physics.add.sprite(4550,1250,"danger2");
         this.danger2.body.allowGravity = false;
         this.danger2.setImmovable(true);
         this.danger2.setVisible(true);
         this.danger2.setAlpha(0.5);
 
-        this.danger3 = this.physics.add.sprite(6550,1340,"danger3");
+        this.danger3 = this.physics.add.sprite(6550,1250,"danger3");
         this.danger3.body.allowGravity = false;
         this.danger3.setImmovable(true);
         this.danger3.setVisible(true);
         this.danger3.setAlpha(0.5);
 
-        this.danger4 = this.physics.add.sprite(8240,1340,"danger4");
+        this.danger4 = this.physics.add.sprite(8240,1250,"danger4");
         this.danger4.body.allowGravity = false;
         this.danger4.setImmovable(true);
         this.danger4.setVisible(true);
