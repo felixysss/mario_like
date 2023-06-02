@@ -1,6 +1,7 @@
 import {scene} from "./assets/scene.js";
 import {scene2} from "./assets/scene2.js";
 import {sceneMenu} from "./assets/menu.js";
+import { GameOver } from "./assets/game_over.js";
 
 
 var config = 
@@ -21,7 +22,7 @@ var config =
         }
     },
     
-    scene: [sceneMenu, scene, scene2],
+    scene: [sceneMenu, scene, scene2, GameOver],
     pixelArt: true,
 
 

@@ -1,4 +1,5 @@
 import {scene2} from './scene2.js';
+import {GameOver} from './game_over.js';
 
 export class scene extends Phaser.Scene
 {
@@ -18,9 +19,16 @@ export class scene extends Phaser.Scene
 
     }
 
+    
+
     preload(){
         this.load.image("ded",'assets/gameover.png');
-        this.load.image("danger",'assets/danger.png');
+
+        this.load.image("danger",'assets/lamp.png');
+        this.load.image("danger2",'assets/lamp.png');
+        this.load.image("danger3",'assets/lamp.png');
+        this.load.image("danger4",'assets/lamp.png');
+
         this.load.image("level",'assets/lvl1.png');
         this.load.image("Phaser_tuilesdejeu",'assets/tileset.png');
         this.load.tilemapTiledJSON('carte', 'assets/map_rue.json');
@@ -34,26 +42,49 @@ export class scene extends Phaser.Scene
 
  
     create(){
+
+        console.log("aled")
+        this.cursors = this.input.keyboard.createCursorKeys();//pour le clavier 
         
         var lampadaireOn = true
 
         this.add.image(4720,895,"level");
         this.add.text(250, 100, 'Hello World', { fontFamily: 'Times' });
 
-        this.player = this.physics.add.sprite(250, 191, 'perso');
+        this.player = this.physics.add.sprite(250, 1485.5, 'perso');
 
         this.player.canBeDetected = false;
 
-        this.ennemy= this.physics.add.sprite(399, 191, 'ennemi');
+        this.ennemy= this.physics.add.sprite(3499, 1340, 'ennemi');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
         this.ennemy.setCollideWorldBounds(true);
         
-        this.danger = this.physics.add.sprite(335,191,"danger");
+        this.danger = this.physics.add.sprite(2725,1340,"danger");
         this.danger.body.allowGravity = false;
         this.danger.setImmovable(true);
         this.danger.setVisible(true);
+        this.danger.setAlpha(0.5);
+
+        this.danger2 = this.physics.add.sprite(4550,1340,"danger2");
+        this.danger2.body.allowGravity = false;
+        this.danger2.setImmovable(true);
+        this.danger2.setVisible(true);
+        this.danger2.setAlpha(0.5);
+
+        this.danger3 = this.physics.add.sprite(6550,1340,"danger3");
+        this.danger3.body.allowGravity = false;
+        this.danger3.setImmovable(true);
+        this.danger3.setVisible(true);
+        this.danger3.setAlpha(0.5);
+
+        this.danger4 = this.physics.add.sprite(8240,1340,"danger4");
+        this.danger4.body.allowGravity = false;
+        this.danger4.setImmovable(true);
+        this.danger4.setVisible(true);
+        this.danger4.setAlpha(0.5);
+        
 
         
 
@@ -92,14 +123,14 @@ export class scene extends Phaser.Scene
         //caméra
         this.physics.world.setBounds(0,0,9449,1772);
         this.cameras.main.setBounds(0,0,9449,1772);
-        this.cameras.main.zoom= 1;
+        this.cameras.main.zoom= 0.8;
         this.cameras.main.startFollow(this.player);
 
         this.tp.setCollisionByExclusion(-1, true);
         this.physics.add.collider(this.tp, this.player, this.changeScene, null, this);
 
         //clavier
-        this.cursors = this.input.keyboard.createCursorKeys();//pour le clavier 
+        
         //anim
         this.anims.create({
             // la key c'est l'identifiant, tu la nomme comme tu veux
@@ -141,20 +172,23 @@ export class scene extends Phaser.Scene
             //frameRate: 7,
             //repeat: -1
         //});
-
+        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyJump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.ded = this.add.image(800,800,"ded");
         this.ded.setVisible(false);    
     }
 
     update(delta, time){
         if (this.game_over) {return;}
-        
+        //console.log(this.player.x);
+        //console.log(this.player.y);
 
-
-        if (delta % 100 == 0){
+        if (delta % 7 == 0){
             if (this.danger.visible) {
               this.danger.setVisible(false);
-              this.danger.setOffset(1000,1000);
+              this.danger.setOffset(10000,10000);
               this.lampadaireOn = false;
             } else {
               this.danger.setVisible(true);
@@ -162,11 +196,43 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
+        if (delta % 7 == 0){
+            if (this.danger2.visible) {
+              this.danger2.setVisible(false);
+              this.danger2.setOffset(10000,10000);
+              this.lampadaireOn = false;
+            } else {
+              this.danger2.setVisible(true);
+              this.danger2.setOffset(0,0);
+              this.lampadaireOn = true;
+            }
+        }    
+        if (delta % 7 == 0){
+            if (this.danger3.visible) {
+              this.danger3.setVisible(false);
+              this.danger3.setOffset(10000,10000);
+              this.lampadaireOn = false;
+            } else {
+              this.danger3.setVisible(true);
+              this.danger3.setOffset(0,0);
+              this.lampadaireOn = true;
+            }
+        }    
+        if (delta % 7 == 0){
+            if (this.danger4.visible) {
+              this.danger4.setVisible(false);
+              this.danger4.setOffset(10000,10000);
+              this.lampadaireOn = false;
+            } else {
+              this.danger4.setVisible(true);
+              this.danger4.setOffset(0,0);
+              this.lampadaireOn = true;
+            }
+        }    
 
-        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-        this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.keyJump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+
+
         
 
         //c'est le perso qui bouge
@@ -209,11 +275,11 @@ export class scene extends Phaser.Scene
 
 
         if (this.ennemy) {
-            if (this.ennemy.x < 400) {
+            if (this.ennemy.x < 3500) {
               this.ennemy.setVelocityX(80);
               //this.ennemy.anims.play('ennemy_idle', true);
             } 
-            else if (this.ennemy.x > 470) {
+            else if (this.ennemy.x > 4000) {
               this.ennemy.setVelocityX(-80);
               //this.ennemy.anims.play('ennemy_idle', true);
             }
@@ -228,6 +294,34 @@ export class scene extends Phaser.Scene
             this.player.canBeDetected = false;
 
         }
+        if (this.physics.overlap(this.player, this.danger2, () => this.toggleLampadaire(this.danger2), null, this)&& this.danger2.on) {
+            this.player.canBeDetected = true;
+                    console.log("klkjdlkgj");
+                    this.killplayer();
+        } else {
+            this.player.canBeDetected = false;
+
+        }
+
+        if (this.physics.overlap(this.player, this.danger3, () => this.toggleLampadaire(this.danger3), null, this)&& this.danger3.on) {
+            this.player.canBeDetected = true;
+                    console.log("klkjdlkgj");
+                    this.killplayer();
+        } else {
+            this.player.canBeDetected = false;
+
+        }
+
+        if (this.physics.overlap(this.player, this.danger4, () => this.toggleLampadaire(this.danger4), null, this)&& this.danger4.on) {
+            this.player.canBeDetected = true;
+                    console.log("klkjdlkgj");
+                    this.killplayer();
+        } else {
+            this.player.canBeDetected = false;
+
+        }
+
+
 
         //this.toggleLampadaire(this.danger);
         //this.playerDetection(this.player, this.danger);
@@ -237,6 +331,10 @@ export class scene extends Phaser.Scene
     changeScene(player, trigger){
         this.scene.start('scene2');
     }
+
+    //changeSceneMenu(){
+        //this.scene.start('menu');
+    //}
     
    //overlapDanger(){
         
@@ -266,8 +364,7 @@ export class scene extends Phaser.Scene
     killplayer(){
         this.game_over = true;
         console.log("ça marche");
-        this.ded.setVisible(true);
-        this.cameras.main.zoom= 1;
+        this.scene.start("GameOver")
     }
 
 }
