@@ -5,7 +5,7 @@ export class scene2 extends Phaser.Scene
 {
     constructor(){
         super("scene2");
-
+        this.crouch=false
         this.game_over=false;
     }
     
@@ -17,21 +17,24 @@ export class scene2 extends Phaser.Scene
         this.load.image("level2",'assets/lvl2.png');
         this.load.image("Phaser_tuilesdejeu",'assets/tuiles2.png');
         this.load.tilemapTiledJSON('carte2', 'assets/map_cat.json');
+        
         this.load.spritesheet('perso2','assets/dude.png',
             { frameWidth: 87, frameHeight: 165 });
-        this.load.spritesheet('ennemi2','assets/bad.png',
-            {frameWidth: 314, frameHeight: 456});
+        
+            this.load.spritesheet('ennemi2','assets/bad.png',
+            {frameWidth: 314, frameHeight: 1000});
     }
     
 
  
     create(){
         this.game_over = false;
+        this.crouch = false;
 
         this.add.image(4720,895,"level2");
         this.player = this.physics.add.sprite(400, 1400, 'perso2');
 
-        this.ennemy= this.physics.add.sprite(100, 1400, 'ennemi2');
+        this.ennemy= this.physics.add.sprite(100, 1160, 'ennemi2');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
@@ -41,26 +44,28 @@ export class scene2 extends Phaser.Scene
         
 
         //tiled
-        this.carteDuNiveau= this.add.tilemap("carte2");
+        this.carteDuNiveau= this.add.tilemap('carte2');
 
         this.tileset = this.carteDuNiveau.addTilesetImage(
-            "tileset",
             "Phaser_tuilesdejeu"
         );
-
+        this.collision = this.carteDuNiveau.createLayer(
+            "collision",
+            this.tileset
+        );
         this.calque_plateformes = this.carteDuNiveau.createLayer(
             "calque_plateformes",
             this.tileset
         );
 
-        this.calque_plateformes_2 = this.carteDuNiveau.createLayer(
-            "calque_plateformes",
-            this.tileset
-        );
+
 
 
         this.calque_plateformes.setCollisionByProperty({ estSolide: true });
+        this.collision.setCollisionByProperty({ estSolide: true });
+        this.physics.add.collider(this.player, this.collision);
         this.physics.add.collider(this.player, this.calque_plateformes);
+
         this.physics.add.collider(this.ennemy, this.calque_plateformes);
         this.physics.add.collider(this.player, this.ennemy, this.killplayer, null, this);
 
@@ -69,7 +74,7 @@ export class scene2 extends Phaser.Scene
         this.cameras.main.setBounds(0,0,9449,1772);
         this.cameras.main.zoom= 0.8;
         this.cameras.main.startFollow(this.player);
-        this.ennemy.setVelocityX(8000)
+        
 
 
         //clavier
@@ -98,14 +103,14 @@ export class scene2 extends Phaser.Scene
         });
         this.anims.create({
             key: 'up',
-            frames: this.anims.generateFrameNumbers('perso', {start:9,end:11}),
+            frames: this.anims.generateFrameNumbers('perso', {start:9,end:9}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'down',
-            frames: this.anims.generateFrameNumbers('perso', {start:9,end:11}),
+            frames: this.anims.generateFrameNumbers('perso', {start:10,end:10}),
             frameRate: 10,
             repeat: -1
         });
@@ -133,7 +138,7 @@ export class scene2 extends Phaser.Scene
     
 
         
-        this.physics.moveToObject(this.ennemy,this.player, 50, )
+        this.physics.moveToObject(this.ennemy,this.player, 90, )
         //---keyboard---);
 
         this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -145,32 +150,39 @@ export class scene2 extends Phaser.Scene
         //c'est le perso qui bouge
         if (this.keyQ.isDown)
         {
+            this.player.setSize(0, 0);
             this.player.setVelocityX(-400);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
+            this.player.setSize(0, 0);
             this.player.setVelocityX(400);
             this.player.anims.play('right', true);
 
         }
         else{
+            this.player.setSize(0, 0);
             this.player.setVelocityX(0);
         }
         
         if (!this.keyShift.isDown && !this.keyJump.isDown && !this.keyQ.isDown && !this.keyD.isDown)
         {
+            this.player.setSize(0, 0);
             this.player.anims.play('turn', true);
         }
 
         if (this.keyJump.isDown && this.player.body.blocked.down)
         {
+            this.player.setSize(0, 0);
             this.player.setVelocityY(-350);
             this.player.anims.play('up',true);
         }
-        else if (this.keyShift.isDown&& this.player.body.blocked.down)
+        else if (this.keyShift.isDown)
         {
+            this.crouch=true;
+            this.player.setSize(87, 101);
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
 
