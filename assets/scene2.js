@@ -32,7 +32,9 @@ export class scene2 extends Phaser.Scene
         this.crouch = false;
 
         this.add.image(4720,895,"level2");
-        this.player = this.physics.add.sprite(400, 1400, 'perso2');
+        this.add.text(1200, 1200, 'Un soldat t’a trouvé ! Vite, fuis ! La sortie est proche.', { fontFamily: 'Times' });
+
+        this.player = this.physics.add.sprite(1000, 1400, 'perso2');
 
         this.ennemy= this.physics.add.sprite(100, 1160, 'ennemi2');
         this.player.setBounce(0.2);
@@ -138,7 +140,7 @@ export class scene2 extends Phaser.Scene
     
 
         
-        this.physics.moveToObject(this.ennemy,this.player, 90, )
+        this.physics.moveToObject(this.ennemy,this.player, 120, )
         //---keyboard---);
 
         this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -150,42 +152,48 @@ export class scene2 extends Phaser.Scene
         //c'est le perso qui bouge
         if (this.keyQ.isDown)
         {
-            this.player.setSize(0, 0);
+
             this.player.setVelocityX(-400);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
-            this.player.setSize(0, 0);
+
             this.player.setVelocityX(400);
             this.player.anims.play('right', true);
 
         }
         else{
-            this.player.setSize(0, 0);
+
             this.player.setVelocityX(0);
         }
         
         if (!this.keyShift.isDown && !this.keyJump.isDown && !this.keyQ.isDown && !this.keyD.isDown)
         {
-            this.player.setSize(0, 0);
+
             this.player.anims.play('turn', true);
         }
 
         if (this.keyJump.isDown && this.player.body.blocked.down)
         {
-            this.player.setSize(0, 0);
+
             this.player.setVelocityY(-350);
             this.player.anims.play('up',true);
         }
-        else if (this.keyShift.isDown)
+
+        if (this.keyShift.isDown)
         {
             this.crouch=true;
-            this.player.setSize(87, 101);
+            this.player.setSize(87, 90);
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
+            this.player.y = 1421.5
 
+        }
+        else {
+            console.log(this.player.y)
+            this.player.setSize(0, 0);
         }
 
         //if (this.ennemy) {

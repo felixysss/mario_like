@@ -57,9 +57,13 @@ export class scene extends Phaser.Scene
         this.crouch = false;
 
         this.add.image(4720,895,"level");
-        //this.add.text(250, 100, 'Hello World', { fontFamily: 'Times' });
+        this.add.text(180, 1450, 'Tu es François.', { fontFamily: 'Times' });
+        this.add.text(1000, 1350, 'Tes parents t’ont demandé de sortir de la ville pour rejoindre ta tante Amélie qui t’emmènera dans un lieu plus sûr', { fontFamily: 'Times' });
+        this.add.text(1200, 1390, 'Essaie de ne pas te faire repérer et rejoins-la au plus vite !', { fontFamily: 'Times' });
+        this.add.text(2000, 1350, 'Oh non, des soldats patrouillent !', { fontFamily: 'Times' });
+        this.add.text(2200, 1390, 'Mais les réverbères semblent dysfonctionnels…', { fontFamily: 'type' });
 
-        this.player = this.physics.add.sprite(9000, 1200, 'perso');
+        this.player = this.physics.add.sprite(100, 1500, 'perso');
 
         this.player.canBeDetected = false;
 
@@ -83,25 +87,25 @@ export class scene extends Phaser.Scene
 
 
         
-        this.danger = this.physics.add.sprite(2725,1250,"danger");
+        this.danger = this.physics.add.sprite(2725,1280,"danger");
         this.danger.body.allowGravity = false;
         this.danger.setImmovable(true);
         this.danger.setVisible(true);
         this.danger.setAlpha(0.5);
 
-        this.danger2 = this.physics.add.sprite(4550,1250,"danger2");
+        this.danger2 = this.physics.add.sprite(4550,1280,"danger2");
         this.danger2.body.allowGravity = false;
         this.danger2.setImmovable(true);
         this.danger2.setVisible(true);
         this.danger2.setAlpha(0.5);
 
-        this.danger3 = this.physics.add.sprite(6550,1250,"danger3");
+        this.danger3 = this.physics.add.sprite(6550,1280,"danger3");
         this.danger3.body.allowGravity = false;
         this.danger3.setImmovable(true);
         this.danger3.setVisible(true);
         this.danger3.setAlpha(0.5);
 
-        this.danger4 = this.physics.add.sprite(8240,1250,"danger4");
+        this.danger4 = this.physics.add.sprite(8240,1280,"danger4");
         this.danger4.body.allowGravity = false;
         this.danger4.setImmovable(true);
         this.danger4.setVisible(true);
@@ -210,7 +214,7 @@ export class scene extends Phaser.Scene
         //console.log(this.player.x);
         //console.log(this.player.y);
 
-        if (delta % 200 == 0){
+        if (delta % 220 == 0){
             if (this.danger.visible) {
               this.danger.setVisible(false);
               this.danger.setOffset(10000,10000);
@@ -221,7 +225,7 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
-        if (delta % 200 == 0){
+        if (delta % 220 == 0){
             if (this.danger2.visible) {
               this.danger2.setVisible(false);
               this.danger2.setOffset(10000,10000);
@@ -232,7 +236,7 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
-        if (delta % 200 == 0){
+        if (delta % 220 == 0){
             if (this.danger3.visible) {
               this.danger3.setVisible(false);
               this.danger3.setOffset(10000,10000);
@@ -243,7 +247,7 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
-        if (delta % 200 == 0){
+        if (delta % 220 == 0){
             if (this.danger4.visible) {
               this.danger4.setVisible(false);
               this.danger4.setOffset(10000,10000);
@@ -266,14 +270,14 @@ export class scene extends Phaser.Scene
         //c'est le perso qui bouge
         if (this.keyQ.isDown)
         {
-            this.player.setSize(0, 0);
+            
             this.player.setVelocityX(-400);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
-            this.player.setSize(0, 0);
+            
             this.player.setVelocityX(400);
             this.player.anims.play('right', true);
 
@@ -285,23 +289,29 @@ export class scene extends Phaser.Scene
         
         if (!this.keyShift.isDown && !this.keyJump.isDown && !this.keyQ.isDown && !this.keyD.isDown)
         {
-            this.player.setSize(0, 0);
+            
             this.player.anims.play('turn', true);
         }
 
         if (this.keyJump.isDown && this.player.body.blocked.down)
         {
-            this.player.setSize(0, 0);
+            
             this.player.setVelocityY(-350);
             this.player.anims.play('up',true);
         }
-        else if (this.keyShift.isDown)
+
+        if (this.keyShift.isDown)
         {
             this.crouch=true;
-            this.player.setSize(87, 101);
+            this.player.setSize(87, 90);
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
+            this.player.y = 1485.5
 
+        }
+        else {
+            console.log("hello")
+            this.player.setSize(0, 0);
         }
 
         if (this.ennemy) {
