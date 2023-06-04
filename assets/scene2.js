@@ -1,5 +1,6 @@
 import {scene} from './scene.js';
 import {GameOver} from './game_over.js';
+import {sceneFin} from './fin.js';
 
 export class scene2 extends Phaser.Scene
 {
