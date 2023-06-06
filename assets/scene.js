@@ -63,7 +63,7 @@ export class scene extends Phaser.Scene
         this.add.text(2000, 1350, 'Oh non, des soldats patrouillent !', { fontFamily: 'Times' });
         this.add.text(2200, 1390, 'Mais les réverbères semblent dysfonctionnels…', { fontFamily: 'type' });
 
-        this.player = this.physics.add.sprite(100, 1500, 'perso');
+        this.player = this.physics.add.sprite(100, 1500, 'perso');//100 pour début
 
         this.player.canBeDetected = false;
 
@@ -214,7 +214,7 @@ export class scene extends Phaser.Scene
         //console.log(this.player.x);
         //console.log(this.player.y);
 
-        if (delta % 220 == 0){
+        if (delta % 70 == 0){
             if (this.danger.visible) {
               this.danger.setVisible(false);
               this.danger.setOffset(10000,10000);
@@ -225,7 +225,7 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
-        if (delta % 220 == 0){
+        if (delta % 70 == 0){
             if (this.danger2.visible) {
               this.danger2.setVisible(false);
               this.danger2.setOffset(10000,10000);
@@ -236,7 +236,7 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
-        if (delta % 220 == 0){
+        if (delta % 70 == 0){
             if (this.danger3.visible) {
               this.danger3.setVisible(false);
               this.danger3.setOffset(10000,10000);
@@ -247,7 +247,7 @@ export class scene extends Phaser.Scene
               this.lampadaireOn = true;
             }
         }    
-        if (delta % 220 == 0){
+        if (delta % 70 == 0){
             if (this.danger4.visible) {
               this.danger4.setVisible(false);
               this.danger4.setOffset(10000,10000);
@@ -271,14 +271,14 @@ export class scene extends Phaser.Scene
         if (this.keyQ.isDown)
         {
             
-            this.player.setVelocityX(-400);
+            this.player.setVelocityX(-200);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
             
-            this.player.setVelocityX(400);
+            this.player.setVelocityX(200);
             this.player.anims.play('right', true);
 
         }

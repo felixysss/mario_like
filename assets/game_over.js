@@ -7,10 +7,10 @@ export class GameOver extends Phaser.Scene
         this.click = false;
     }
     preload(){
-        this.load.image('fishe','assets/fishe.png');
+        this.load.image('fishe','assets/gameover.png');
     }
     create(){ 
-        this.add.image(800,800,'fishe');
+        this.add.image(800,450,'fishe');
         this.cameras.main.zoom= 1;
 
         this.cursors = this.input.keyboard.createCursorKeys();

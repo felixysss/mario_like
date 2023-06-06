@@ -8,7 +8,7 @@ export class sceneMenu extends Phaser.Scene
         this.load.image('menu','assets/menu.png');
     }
     create(){
-        this.add.image(800,800,'menu');
+        this.add.image(800,450,'menu');
         this.cameras.main.zoom= 1;
 
         this.cursors = this.input.keyboard.createCursorKeys();

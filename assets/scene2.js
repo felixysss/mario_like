@@ -60,6 +60,11 @@ export class scene2 extends Phaser.Scene
             "calque_plateformes",
             this.tileset
         );
+        this.tp = this.carteDuNiveau.createLayer(
+            'tp',
+            this.tileset
+        );
+
 
 
 
@@ -78,6 +83,8 @@ export class scene2 extends Phaser.Scene
         this.cameras.main.zoom= 0.8;
         this.cameras.main.startFollow(this.player);
         
+        this.tp.setCollisionByExclusion(-1, true);
+        this.physics.add.collider(this.tp, this.player, this.changeScene, null, this);
 
 
         //clavier
@@ -154,14 +161,14 @@ export class scene2 extends Phaser.Scene
         if (this.keyQ.isDown)
         {
 
-            this.player.setVelocityX(-400);
+            this.player.setVelocityX(-200);
             this.player.anims.play('left', true);  
         
         }
         else if (this.keyD.isDown)
         {
 
-            this.player.setVelocityX(400);
+            this.player.setVelocityX(200);
             this.player.anims.play('right', true);
 
         }
@@ -211,6 +218,9 @@ export class scene2 extends Phaser.Scene
 
 
         }
+    changeScene(player, trigger){
+            this.scene.start('sceneFin');
+    }
 
     killplayer(){
         this.game_over = true;
