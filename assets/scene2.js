@@ -19,11 +19,11 @@ export class scene2 extends Phaser.Scene
         this.load.image("Phaser_tuilesdejeu",'assets/tuiles2.png');
         this.load.tilemapTiledJSON('carte2', 'assets/map_cat.json');
         
-        this.load.spritesheet('perso2','assets/dude.png',
-            { frameWidth: 87, frameHeight: 165 });
+        this.load.spritesheet('perso2','assets/dude2.png',
+            { frameWidth: 200, frameHeight: 500 });
         
-            this.load.spritesheet('ennemi2','assets/bad.png',
-            {frameWidth: 314, frameHeight: 1000});
+            this.load.spritesheet('ennemi2','assets/ennemi.png',
+            {frameWidth: 600, frameHeight: 800});
     }
     
 
@@ -35,9 +35,9 @@ export class scene2 extends Phaser.Scene
         this.add.image(4720,895,"level2");
         this.add.text(1200, 1200, 'Un soldat t’a trouvé ! Vite, fuis ! La sortie est proche.', { fontFamily: 'Times' });
 
-        this.player = this.physics.add.sprite(1000, 1400, 'perso2');
+        this.player = this.physics.add.sprite(1000, 1350, 'perso2').setScale(0.6);
 
-        this.ennemy= this.physics.add.sprite(100, 1160, 'ennemi2');
+        this.ennemy= this.physics.add.sprite(100, 1020 , 'ennemi2').setScale(1.2);
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.ennemy.setBounce(0.2);
@@ -95,40 +95,40 @@ export class scene2 extends Phaser.Scene
             key: 'left', 
             // ici le premier argument c'est le nom que t'as mis quand t'importe la spritesheet
             // le deuxième argument c'est pour dire a quel frame l'anim commence et end (ça commence a zero)
-            frames: this.anims.generateFrameNumbers('perso', {start:0,end:3}),
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('perso', {start:11,end:19}),
+            frameRate: 5,
             // le repeat en -1 c'est pour dire que ça loop (je crois)
             repeat: -1
         });
         this.anims.create({
             key: 'turn',
-            frames: [ { key: 'perso', frame: 4 } ],
+            frames: [ { key: 'perso', frame: 0 } ],
             frameRate: 20
         });
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('perso', {start:5,end:8}),
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('perso', {start:1,end:9}),
+            frameRate: 7,
             repeat: -1
         });
         this.anims.create({
             key: 'up',
-            frames: this.anims.generateFrameNumbers('perso', {start:9,end:9}),
+            frames: this.anims.generateFrameNumbers('perso', {start:22,end:22}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'down',
-            frames: this.anims.generateFrameNumbers('perso', {start:10,end:10}),
+            frames: this.anims.generateFrameNumbers('perso', {start:23,end:23}),
             frameRate: 10,
             repeat: -1
         });
         //this.anims.create({
-          //  key: 'ennemi_idle',
-          //  frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
-          //  frameRate: 7,
-          //  repeat: -1
+            //key: 'ennemi_idle',
+            //frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
+            //frameRate: 7,
+            //repeat: -1
         //});
 
         this.ded = this.add.image(800,800,"ded");
@@ -193,10 +193,10 @@ export class scene2 extends Phaser.Scene
         if (this.keyShift.isDown)
         {
             this.crouch=true;
-            this.player.setSize(87, 90);
+            this.player.setSize(1, 1);
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
-            this.player.y = 1421.5
+            this.player.y = 1350.5
 
         }
         else {

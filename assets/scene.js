@@ -33,15 +33,15 @@ export class scene extends Phaser.Scene
         this.load.image("Phaser_tuilesdejeu",'assets/tileset.png');
         this.load.tilemapTiledJSON('carte', 'assets/map_rue.json');
        
-        this.load.spritesheet('perso','assets/dude.png',
-            { frameWidth: 87, frameHeight: 165 });
+        this.perso = this.load.spritesheet('perso','assets/dude2.png',
+            { frameWidth: 200, frameHeight: 500 });
 
-        this.load.spritesheet('ennemi','assets/bad.png',
-            {frameWidth: 314, frameHeight: 1000});
-        this.load.spritesheet('ennemi2','assets/bad.png',
-            {frameWidth: 314, frameHeight: 1000});
-        this.load.spritesheet('ennemi3','assets/bad.png',
-            {frameWidth: 314, frameHeight: 1000});
+        this.load.spritesheet('ennemi','assets/ennemi.png',
+            {frameWidth: 600, frameHeight: 800});
+        this.load.spritesheet('ennemi2','assets/ennemi.png',
+            {frameWidth: 600, frameHeight: 800});
+        this.load.spritesheet('ennemi3','assets/ennemi.png',
+            {frameWidth: 600, frameHeight: 800});
 
     }
 
@@ -63,7 +63,7 @@ export class scene extends Phaser.Scene
         this.add.text(2000, 1350, 'Oh non, des soldats patrouillent !', { fontFamily: 'Times' });
         this.add.text(2200, 1390, 'Mais les réverbères semblent dysfonctionnels…', { fontFamily: 'type' });
 
-        this.player = this.physics.add.sprite(100, 1500, 'perso');//100 pour début
+        this.player = this.physics.add.sprite(100, 1450, 'perso').setScale(0.5);;//100 pour début
 
         this.player.canBeDetected = false;
 
@@ -156,6 +156,7 @@ export class scene extends Phaser.Scene
 
         this.tp.setCollisionByExclusion(-1, true);
         this.physics.add.collider(this.tp, this.player, this.changeScene, null, this);
+        
 
         //clavier
         
@@ -165,41 +166,41 @@ export class scene extends Phaser.Scene
             key: 'left', 
             // ici le premier argument c'est le nom que t'as mis quand t'importe la spritesheet
             // le deuxième argument c'est pour dire a quel frame l'anim commence et end (ça commence a zero)
-            frames: this.anims.generateFrameNumbers('perso', {start:0,end:3}),
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('perso', {start:11,end:19}),
+            frameRate: 5,
             // le repeat en -1 c'est pour dire que ça loop (je crois)
             repeat: -1
         });
-        this.anims.create({
+        this.anims.create({ 
             key: 'turn',
-            frames: [ { key: 'perso', frame: 4 } ],
+            frames: [ { key: 'perso', frame: 0 } ],
             frameRate: 20
         });
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('perso', {start:5,end:8}),
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('perso', {start:1,end:9}),
+            frameRate: 7,
             repeat: -1
         });
         this.anims.create({
             key: 'up',
-            frames: this.anims.generateFrameNumbers('perso', {start:9,end:9}),
+            frames: this.anims.generateFrameNumbers('perso', {start:22,end:22}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'down',
-            frames: this.anims.generateFrameNumbers('perso', {start:10,end:10}),
+            frames: this.anims.generateFrameNumbers('perso', {start:23,end:23}),
             frameRate: 10,
             repeat: -1
         });
-        //this.anims.create({
-            //key: 'ennemi_idle',
-            //frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
-            //frameRate: 7,
-            //repeat: -1
-        //});
+        this.anims.create({
+            key: 'ennemi_idle1 ',
+            frames: this.anims.generateFrameNumbers('ennemi', {start:0,end:3}),
+            frameRate: 7,
+            repeat: -1
+        });
 
         this.cursors = this.input.keyboard.createCursorKeys();//pour le clavier    
 
@@ -303,10 +304,10 @@ export class scene extends Phaser.Scene
         if (this.keyShift.isDown)
         {
             this.crouch=true;
-            this.player.setSize(87, 90);
+            this.player.setSize(10, 10);
             this.player.setVelocityY(200);
             this.player.anims.play('down', true);
-            this.player.y = 1485.5
+            this.player.y = 1452
 
         }
         else {
@@ -317,11 +318,11 @@ export class scene extends Phaser.Scene
         if (this.ennemy) {
             if (this.ennemy.x < 3500) {
               this.ennemy.setVelocityX(80);
-              //this.ennemy.anims.play('ennemy_idle', true);
+              this.ennemy.anims.play('ennemy_idle1', true);
             } 
             else if (this.ennemy.x > 4000) {
               this.ennemy.setVelocityX(-80);
-              //this.ennemy.anims.play('ennemy_idle', true);
+              this.ennemy.anims.play('ennemy_idle1', true);
             }
                 
         }
